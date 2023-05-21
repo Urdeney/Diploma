@@ -1,4 +1,4 @@
-class Method_Result():
+class Fp_Method_Result():
     clone_parts_1 : list    # части с заимствованиями из первого файла
     clone_parts_2 : list    # части с заимствованиями из второго файла
     clone_pct : float       # процент заимствований

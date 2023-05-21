@@ -1,6 +1,5 @@
-from fp_method_builder import *
-from method_configurator import *
-from fp_method import Method_Result
+from fp_method_builder import Fingerprint_Method_Builder
+from method_configurator import Method_Configurator
 
 def main():
     filenames = ['./Tests/Python/test1.py','./Tests/Python/test2.py']
