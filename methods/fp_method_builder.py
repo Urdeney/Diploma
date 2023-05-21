@@ -1,4 +1,5 @@
 from method_builder import Method_Builder
+from fp_method import Method_Result
 import pygments.token,pygments.lexers
 import hashlib
 
@@ -50,7 +51,10 @@ class Fingerprint_Method_Builder(Method_Builder):
 
         merged_points1 = self._get_merged_points(points1)
         merged_points2 = self._get_merged_points(points2)
-        self.p.append([merged_points1, merged_points2, self._distance_simpson(fp1, fp2)])
+        #self.p.append([merged_points1, merged_points2, self._distance_simpson(fp1, fp2)])
+        self.p.append(merged_points1)
+        self.p.append(merged_points2)
+        self.p.append(self._distance_simpson(fp1, fp2))
 
         # for i in range(0,len(tokens)):
         #     grams = self._get_k_grams_from_text(tokens[i], k, q)
@@ -63,8 +67,9 @@ class Fingerprint_Method_Builder(Method_Builder):
         #     merged_points1 =self._get_merged_points_extended(points1)
         #     merged_points2 = self._get_merged_points_extended(points2)
     
-    def post_processing_step(self): #TO_DO
-        print(self.p)
+    def post_processing_step(self) -> Method_Result:
+        return Method_Result (self.p[0],self.p[1],self.p[2])
+        #print(self.p)
 
     #Возвращает только токены в списке
     def _to_list(self,arr):

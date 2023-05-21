@@ -9,11 +9,10 @@ class Method_Configurator():
         if self.builder is None:
             raise AttributeError("Builder cannot be empty")
         
-    # TO_DO    
-    def change_builder(self):
-        pass
+    def change_builder(self, new_builder: Method_Builder):
+        self.builder = new_builder    
 
     def make_method(self):
         self.builder.pre_processing_step()
         self.builder.processing_step()
-        self.builder.post_processing_step()
+        return self.builder.post_processing_step()
