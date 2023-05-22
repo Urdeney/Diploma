@@ -14,7 +14,7 @@ class FingerprintMethodBuilder(MethodBuilder):
     hash_param: int                     # параметр хэш-фукнции
     window_size: int                    # размер окна (для алгоритма winnowing)
 
-    def __init__(self, f_list: list, gram_size=8, hash_param=259, window_size=3) -> None:
+    def __init__(self, f_list: list, gram_size=8,window_size=3,hash_param=259) -> None:
         super().__init__()
         self.input_files = f_list
         self.pre_proc_out = []
