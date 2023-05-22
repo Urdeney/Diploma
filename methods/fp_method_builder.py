@@ -1,19 +1,18 @@
-import hashlib
 import pygments.token
 import pygments.lexers
-from method_builder import Method_Builder
-from fp_method import Fp_Method_Result
+from method_builder import MethodBuilder
+from fp_method import FpMethodResult
 
 
-class Fingerprint_Method_Builder(Method_Builder):
-    input_files: list                   # list of 2 filenames to detect clones
-    pre_proc_out: list                  # pre_processing_step output
-    proc_out: list                      # processing_step output
-    post_proc_out: Fp_Method_Result     # processing_step output
-    output: list                        # method_result
-    gram_size: int                      # size of K-gram
-    hash_param: int                     # hash_function parameter
-    window_size: int                    # size of window (for winnowing)
+class FingerprintMethodBuilder(MethodBuilder):
+    input_files: list                   # список из 2 имен файлов для проверки
+    pre_proc_out: list                  # выходные данные pre_processing_step
+    proc_out: list                      # выходные данные processing_step
+    post_proc_out: FpMethodResult     # выходные данные processing_step
+    output: list                        # результат выполнения метода
+    gram_size: int                      # размер K-грамы
+    hash_param: int                     # параметр хэш-фукнции
+    window_size: int                    # размер окна (для алгоритма winnowing)
 
     def __init__(self, f_list: list, gram_size=8, hash_param=259, window_size=3) -> None:
         super().__init__()
@@ -31,9 +30,9 @@ class Fingerprint_Method_Builder(Method_Builder):
             self.pre_proc_out.append(token_lst)
 
     def processing_step(self):
-        tokens_text = []    # tokens in string notation
-        gh_list = []        # list of texts' grams and hashes
-        finger_prints = []   # texts' fingerprints
+        tokens_text = []        # список токенов в строковом представлении
+        gh_list = []            # список К-грам и хэш-значений текстов
+        finger_prints = []      # fingerprints текстов
 
         if len(self.input_files) != len(self.pre_proc_out):
             raise AttributeError("Fingerprint method prepocessing error")
@@ -58,20 +57,20 @@ class Fingerprint_Method_Builder(Method_Builder):
 
         self.proc_out.append(self._distance_simpson_lst(finger_prints))
 
-    def post_processing_step(self) -> Fp_Method_Result:
-        return Fp_Method_Result(self.proc_out[0], self.proc_out[1], self.proc_out[2])
+    def post_processing_step(self) -> FpMethodResult:
+        return FpMethodResult(self.proc_out[0], self.proc_out[1], self.proc_out[2])
 
-    # Возвращает сами токены в списке
     def _to_list(self, arr):
+        """Возвращает сами токены в списке"""
         return [str(x[0]) for x in arr]
 
-    # Возвращает сами токены в строке
     def _to_text(self, arr):
+        """Возвращает сами токены в строке"""
         cleanText = ''.join(str(x[0]) for x in arr)
         return cleanText
 
-    # Алгоритм токенизации с запоминанием позиции
     def _tokenize(self, filename: str) -> None:
+        """Алгоритм токенизации с запоминанием позиции"""
         file = open(filename, "r")
         text = file.read()
         file.close()
@@ -100,19 +99,19 @@ class Fingerprint_Method_Builder(Method_Builder):
 
         return res
 
-    # Возвращает текст из файла
     def _get_text_from_file(self, filename):
+        """Возвращает текст из файла"""
         with open(filename, 'r') as f:
             text = f.read().lower()
         return text
 
-    # возвращает текст без стоп-символов
     def _get_text_processing(self, text):
+        """Возвращает текст без стоп-символов"""
         stop_symbols = [' ', ',']
         return ''.join(j for j in text if j not in stop_symbols)
 
-    # Хеш-функция от куска текста 1
     def _get_hash_from_gram(self, gram, q):
+        """Хеш-функция от фрагмента текста"""
         h = 0
         k = 273
 
@@ -124,15 +123,8 @@ class Fingerprint_Method_Builder(Method_Builder):
             m = (m * k) % mod
         return h
 
-    # Хеш-функция от куска текста 2
-    def _get_hash_from_gram1(self, gram, q):
-        hashval = hashlib.sha1(gram.encode('utf-8'))
-        hashval = hashval.hexdigest()[-4:]
-        hashval = int(hashval, 16)
-        return hashval
-
-    # Разделить текст на K-граммы
     def _get_k_grams_from_text(self, text, k=25, q=31):
+        """Разделить текст на K-граммы"""
         grams = []
         for i in range(0, len(text)-k+1):
             hash_gram = self._get_hash_from_gram(text[i:i+k], q)
@@ -140,15 +132,15 @@ class Fingerprint_Method_Builder(Method_Builder):
             grams.append(gram)
         return grams
 
-    # Взять хэши от списка граммов
     def _get_hashes_from_grams(self, grams):
+        """Взять хэши от списка граммов"""
         hashes = []
         for gram in grams:
             hashes.append(gram.hash)
         return hashes
 
-    # Индекс минимального значения в окне
     def _min_index(self, window):
+        """Индекс минимального значения в окне"""
         min_ = window[0]
         min_i = 0
         for i in range(0, len(window)):
@@ -157,8 +149,8 @@ class Fingerprint_Method_Builder(Method_Builder):
                 min_i = i
         return min_i
 
-    # Метод просеивания отпечатков
     def _winnow(self, hashes, w):
+        """Метод просеивания отпечатков"""
         n = len(hashes)
         prints = []
         windows = []
@@ -173,20 +165,20 @@ class Fingerprint_Method_Builder(Method_Builder):
                 prev_min = current_min
         return prints
 
-    # Мера Шимкевича_Симпсона
     def _distance_simpson(self, A, B):
+        """Мера Шимкевича_Симпсона"""
         a = set(A)
         b = set(B)
         return len(a.intersection(b)) / min(len(a), len(b))
 
-    # Мера Шимкевича_Симпсона (лист)
     def _distance_simpson_lst(self, lst):
+        """Мера Шимкевича_Симпсона из списка"""
         a = set(lst[0])
         b = set(lst[1])
         return len(a.intersection(b)) / min(len(a), len(b))
 
-    # Найти похожие fingerprints
     def _get_points(self, fp1, fp2, token, hashes, grams):
+        """Найти похожие fingerprints"""
         points = []
         for i in fp1:
             for j in fp2:
@@ -209,23 +201,23 @@ class Fingerprint_Method_Builder(Method_Builder):
         points.sort(key=lambda x: x[0])
         return points
 
-    # Найти похожие fingerprints из листа
     def _get_points_lst(self, lst, token, hashes, grams):
+        """Найти похожие fingerprints из листа"""
         return (self._get_points(lst[0], lst[1], token, hashes, grams))
 
-    # Склеить похожие fingerprints
     def _get_merged_points(self, points):
-        mergedPoints = []
-        mergedPoints.append(points[0])
+        """Склеить похожие fingerprints"""
+        merged_points = []
+        merged_points.append(points[0])
         for i in range(1, len(points)):
-            last = mergedPoints[-1]
+            last = merged_points[-1]
             if points[i][0] >= last[0] and points[i][0] <= last[1]:
                 if points[i][1] > last[1]:
-                    mergedPoints = mergedPoints[:-1]
-                    mergedPoints.append([last[0], points[i][1]])
+                    merged_points = merged_points[:-1]
+                    merged_points.append([last[0], points[i][1]])
             else:
-                mergedPoints.append(points[i])
-        return mergedPoints
+                merged_points.append(points[i])
+        return merged_points
 
 
 class Gram:

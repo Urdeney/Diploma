@@ -1,11 +1,13 @@
-from fp_method_builder import Fingerprint_Method_Builder
-from method_configurator import Method_Configurator
+from fp_method_builder import FingerprintMethodBuilder
+from method_configurator import MethodConfigurator
+
 
 def main():
-    filenames = ['./Tests/Python/test6.py','./Tests/Python/test7.py']
-    fp_builder = Fingerprint_Method_Builder(filenames)
-    config = Method_Configurator(fp_builder)
+    filenames = ['./Tests/Python/test6.py', './Tests/Python/test7.py']
+    fp_builder = FingerprintMethodBuilder(filenames)
+    config = MethodConfigurator(fp_builder)
     res = config.make_method()
     res.print()
+
 
 main()

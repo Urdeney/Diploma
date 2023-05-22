@@ -1,16 +1,17 @@
-from method_builder import Method_Builder
+from method_builder import MethodBuilder
 
-class Method_Configurator():
-    builder : Method_Builder
 
-    def __init__(self, builder : Method_Builder) -> None:
+class MethodConfigurator():
+    builder: MethodBuilder
+
+    def __init__(self, builder: MethodBuilder) -> None:
         super().__init__()
         self.builder = builder
         if self.builder is None:
             raise AttributeError("Builder cannot be empty")
-        
-    def change_builder(self, new_builder: Method_Builder):
-        self.builder = new_builder    
+
+    def change_builder(self, new_builder: MethodBuilder):
+        self.builder = new_builder
 
     def make_method(self):
         self.builder.pre_processing_step()
