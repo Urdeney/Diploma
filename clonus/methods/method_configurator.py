@@ -1,4 +1,4 @@
-from method_builder import MethodBuilder
+from .method_builder import MethodBuilder
 
 
 class MethodConfigurator():

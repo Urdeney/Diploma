@@ -1,7 +1,7 @@
 import pygments.token
 import pygments.lexers
-from method_builder import MethodBuilder
-from fp_method import FpMethodResult
+from .method_builder import MethodBuilder
+from .fp_method import FpMethodResult
 
 
 class FingerprintMethodBuilder(MethodBuilder):
