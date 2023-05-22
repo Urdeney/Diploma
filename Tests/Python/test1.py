@@ -1,24 +1,14 @@
-from random import randint
+import math
 
-def BubbleSort(array):
-    for i in range(len(array)-1):
-        for j in range(len(array)-i-1):
-            if array[j] > array[j+1]:
-                array[j], array[j+1] = array[j+1], array[j]
-    return array
-
-def GenerateArray(n):
-    array = []
-    for i in range(n):
-        array.append(randint(1, 99))
-    return array
+def g(number):
+    return math.sqrt(number)
 
 def main():
-    n = 10
-    a = GenerateArray(n)
-    a = BubbleSort(a)
-
-    print(sum(a))
+    z = 3
+    y = 3
+    z = z * y
+    z = z * z
+    print(z)
 
 main()
 
