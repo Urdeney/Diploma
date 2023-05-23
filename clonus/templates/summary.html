@@ -8,17 +8,11 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"
-    integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{% comment %}
 <script
     src="//cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
-{% endcomment %}
 {% endblock style %}
 {% block content %}
 <script>hljs.highlightAll();</script>
-
 <div class="mt-5 nav">
     <a role="button" class="btn btn-success btn-lg" onclick="history.back()">Назад</a>
 </div>
@@ -29,15 +23,21 @@
             <h4 class="text-pimped"> Процент заимствования: {{ coeff|floatformat:0 }}% </h4>
         </div>
         <div class="d-flex justify-content-between mt-5">
-            <div class="language-python" id="file1">
+            <div class="language-python">
                 <h5 class="text-center bg-success">{{ f1 }}</h5>
-                <pre><code>{{ file1 }}</code></pre>
+                <pre><code id="file1">{{ file1 }}</code></pre>
             </div>
-            <div class="language-python" id="file2">
+            <div class="language-python">
                 <h5 class="text-center bg-success">{{ f2 }}</h5>
-                <pre><code>{{ file2 }}</code></pre>
+                <pre><code id="file2">{{ file2 }}</code></pre>
             </div>
         </div>
     </div>
 </div>
+<script>
+    const e1 = document.getElementById("file1");
+    const e2 = document.getElementById("file2");
+    hljs.highlightLinesElement(e1, [{{ q1| safe }}]);
+    hljs.highlightLinesElement(e2, [{{ q2| safe }}]);
+</script>
 {% endblock content %}
