@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
+from pathlib import Path
 
 from clonus.forms import FileToFileForm
 from clonus.models import Package
@@ -51,14 +52,10 @@ def summary(request: HttpRequest, h: str):
         config = MethodConfigurator(fp_builder)
         method_res = config.make_method()
         # method_res.print()
-        p.coeff = round(method_res.clone_pct * 100,2)
+        # p.coeff = round(method_res.clone_pct * 100,2)
+        p.coeff = method_res.clone_pct
         p.processed = True
         p.save()
-        # TODO:
-        # 1). save shit to db
-        # 2). interpolate files with html tags
-        # 3). write view for summary
-        # 4). think of a way to implement f2db
     
     with open(p.file1, 'r', encoding='utf-8') as f:
         file1 = f.read()
@@ -68,12 +65,18 @@ def summary(request: HttpRequest, h: str):
 
     context = {
         "hash": p.hash,
-        "coeff": p.coeff,
+        "coeff": p.coeff*100,
         "file1": file1,
-        "file2": file2
+        "file2": file2,
+        "f1": Path(p.file1).name,
+        "f2": Path(p.file2).name
     }
     return render(request, "summary.html", context)
 
 
 def list(request: HttpRequest):
-    pass
+    q = Package.objects.all().order_by("-date")
+    context = {
+        "packages": ((i, Path(i.file1).name, Path(i.file2).name) for i in q)
+    }
+    return render(request, "list.html", context)

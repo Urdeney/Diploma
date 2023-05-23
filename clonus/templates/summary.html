@@ -8,26 +8,36 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"
+    integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% comment %}
+<script
+    src="//cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+{% endcomment %}
 {% endblock style %}
 {% block content %}
 <script>hljs.highlightAll();</script>
+
 <div class="mt-5 nav">
-    <a role="button" class="btn btn-success btn-lg" href="{% url 'index' %}">На главную</a>
+    <a role="button" class="btn btn-success btn-lg" onclick="history.back()">Назад</a>
 </div>
 <div class="d-flex align-items-center justify-content-center">
     <div class="container text-white">
         <div class="text-center">
-            <h2 class="lab"> Отчет {{ hash }} </h2>
-            <h4> Процент оригинальности {{ coeff }}% </h4>
+            <h2 class="lab text-pimped"> Отчет {{ hash }} </h2>
+            <h4 class="text-pimped"> Процент заимствования: {{ coeff|floatformat:0 }}% </h4>
         </div>
-        <div class="d-flex justify-content-between">
-            <div class="language-python">
+        <div class="d-flex justify-content-between mt-5">
+            <div class="language-python" id="file1">
+                <h5 class="text-center bg-success">{{ f1 }}</h5>
                 <pre><code>{{ file1 }}</code></pre>
             </div>
-            <div>
+            <div class="language-python" id="file2">
+                <h5 class="text-center bg-success">{{ f2 }}</h5>
                 <pre><code>{{ file2 }}</code></pre>
             </div>
         </div>
     </div>
 </div>
-    {% endblock content %}
+{% endblock content %}

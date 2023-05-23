@@ -18,6 +18,7 @@ class Package(models.Model):
     window_size = models.PositiveSmallIntegerField(default=3)
     processed = models.BooleanField(default=False)
     coeff = models.FloatField(default=0.0)
+    date = models.DateTimeField(auto_now_add=True)
 
     def gen_hash(self, chunk_size: int = 4096):
         hasher = md5(str(self.path).encode("utf-8"))

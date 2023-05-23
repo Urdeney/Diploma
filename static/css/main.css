@@ -53,3 +53,7 @@ body {
     border-radius: 2%;
     padding: 2%;
 }
+
+.text-pimped {
+    text-shadow: 1px 1px 2px black;
+}
