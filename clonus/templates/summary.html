@@ -10,9 +10,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script
     src="//cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js"></script>
 {% endblock style %}
 {% block content %}
-<script>hljs.highlightAll();</script>
+<script>
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad();
+</script>
 <div class="mt-5 nav">
     <a role="button" class="btn btn-success btn-lg" onclick="history.back()">Назад</a>
 </div>

@@ -16,7 +16,6 @@ class Package(models.Model):
     hash = models.CharField(max_length=32)
     gram_size = models.PositiveSmallIntegerField(default=8)
     window_size = models.PositiveSmallIntegerField(default=3)
-    processed = models.BooleanField(default=False)
     coeff = models.FloatField(default=0.0)
     date = models.DateTimeField(auto_now_add=True)
 
