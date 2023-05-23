@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Просмотр отчета
+{% endblock title %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+{% endblock style %}
+{% block content %}
+<script>hljs.highlightAll();</script>
+<div class="mt-5 nav">
+    <a role="button" class="btn btn-success btn-lg" href="{% url 'index' %}">На главную</a>
+</div>
+<div class="d-flex align-items-center justify-content-center">
+    <div class="container text-white">
+        <div class="text-center">
+            <h2 class="lab"> Отчет {{ hash }} </h2>
+            <h4> Процент оригинальности {{ coeff }}% </h4>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="language-python">
+                <pre><code>{{ file1 }}</code></pre>
+            </div>
+            <div>
+                <pre><code>{{ file2 }}</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+    {% endblock content %}

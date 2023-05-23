@@ -24,7 +24,7 @@ from clonus import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
-    path("compare/file_to_file/", views.f2f, name="f2f"),
-    path("compare/file_to_file/summary/<str:h>", views.f2f_summary, name="f2f_summary"),
-    path("compare/file_to_database/", views.f2db, name="f2db"),
+    path("compare/", views.compare, name="compare"),
+    path("summary/<str:h>", views.summary, name="summary"),
+    path("list/", views.list, name="list")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

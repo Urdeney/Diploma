@@ -1,5 +1,5 @@
 from .method_builder import MethodBuilder
-
+from .fp_method import FpMethodResult
 
 class MethodConfigurator():
     builder: MethodBuilder
@@ -13,7 +13,7 @@ class MethodConfigurator():
     def change_builder(self, new_builder: MethodBuilder):
         self.builder = new_builder
 
-    def make_method(self):
+    def make_method(self)-> FpMethodResult:
         self.builder.pre_processing_step()
         self.builder.processing_step()
         return self.builder.post_processing_step()
