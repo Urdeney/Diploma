@@ -11,7 +11,7 @@ def my_sort_insert(array):
  
 def main():
     n = int(input('Введите число n:')) # Вводим число n для генерации массива
-    massive = [random.random.randint(1,10) for i in range(n)] # Генерируем рандомно массив
+    massive = [random.randint(1,10) for i in range(n)] # Генерируем рандомно массив
 
 
     my_sort_insert(massive) # Сортируем

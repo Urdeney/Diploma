@@ -25,6 +25,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
     path("compare/", views.compare, name="compare"),
+    path("compare_many/", views.compare_many, name="compare_many"),
     path("summary/<str:h>", views.summary, name="summary"),
+    path("summary_many/<str:h>", views.summary_many, name="summary_many"),
     path("list/", views.list, name="list")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

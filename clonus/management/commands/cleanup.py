@@ -1,7 +1,8 @@
 from django.core import management
 from django.core.management.base import BaseCommand
 
-from clonus.models import Package
+from shutil import rmtree
+from pathlib import Path
 
 
 class Command(BaseCommand):
@@ -11,9 +12,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             self.stdout.write(self.style.WARNING('Removing packages...'))
-            for p in Package.objects.all():
-                self.stdout.write(p.path)
-                p.rmdir()
+            for p in Path('packages').iterdir():
+                self.stdout.write(f'Deleting {p}...')
+                rmtree(p)
 
             self.stdout.write(self.style.WARNING('Removing database entries...'))
             management.call_command('migrate', 'clonus', 'zero')
