@@ -26,8 +26,10 @@ def create_array(n):
 def main():
     n = int(input('Введите размер массива: '))
     array = create_array(n)
+    print('Сгенерированный массив:')
     print_array(array)
     array = my_sort(array)
+    print('Отсортированный массив:')
     print_array(array)
 
 main()

@@ -14,7 +14,7 @@ class FingerprintMethodBuilder(MethodBuilder):
     hash_param: int                     # параметр хэш-фукнции
     window_size: int                    # размер окна (для алгоритма winnowing)
 
-    def __init__(self, f_list: list, gram_size=8,window_size=3,hash_param=259) -> None:
+    def __init__(self, f_list: list, gram_size=8,window_size=3,hash_param=273) -> None:
         super().__init__()
         self.input_files = f_list
         self.pre_proc_out = []
@@ -89,9 +89,17 @@ class FingerprintMethodBuilder(MethodBuilder):
             elif tokens[i][0] in pygments.token.Literal.String:
                 res.append(('S', source_cnt, product_cnt))
                 product_cnt += 1
+            elif tokens[i][0] in pygments.token.Literal.Number.Integer:
+                res.append(('I', source_cnt, product_cnt))
+                product_cnt += 1
+            elif tokens[i][0] in pygments.token.Literal.Number.Float:
+                res.append(('D', source_cnt, product_cnt))
+                product_cnt += 1
             elif tokens[i][0] in pygments.token.Name.Function:
                 res.append(('F', source_cnt, product_cnt))
                 product_cnt += 1
+            elif i!= 0 and tokens[i-1][0] == pygments.token.Text.Whitespace: 
+                pass
             elif not (tokens[i][0] == pygments.token.Text or tokens[i][0] in pygments.token.Comment):
                 res.append((tokens[i][1], source_cnt, product_cnt))
                 product_cnt += len(tokens[i][1])
@@ -111,16 +119,15 @@ class FingerprintMethodBuilder(MethodBuilder):
         return ''.join(j for j in text if j not in stop_symbols)
 
     def _get_hash_from_gram(self, gram, q):
-        """Хеш-функция от фрагмента текста"""
+        """Полиномиальная хеш-функция от фрагмента текста"""
         h = 0
-        k = 273
 
         mod = 10 ** 9 + 7
         m = 1
         for letter in gram:
             x = ord(letter) - ord('a') + 1
             h = (h + m * x) % mod
-            m = (m * k) % mod
+            m = (m * q) % mod
         return h
 
     def _get_k_grams_from_text(self, text, k=25, q=31):
