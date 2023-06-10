@@ -214,17 +214,20 @@ class FingerprintMethodBuilder(MethodBuilder):
 
     def _get_merged_points(self, points):
         """Склеить похожие fingerprints"""
-        merged_points = []
-        merged_points.append(points[0])
-        for i in range(1, len(points)):
-            last = merged_points[-1]
-            if points[i][0] >= last[0] and points[i][0] <= last[1]:
-                if points[i][1] > last[1]:
-                    merged_points = merged_points[:-1]
-                    merged_points.append([last[0], points[i][1]])
-            else:
-                merged_points.append(points[i])
-        return merged_points
+        try:
+            merged_points = []
+            merged_points.append(points[0])
+            for i in range(1, len(points)):
+                last = merged_points[-1]
+                if points[i][0] >= last[0] and points[i][0] <= last[1]:
+                    if points[i][1] > last[1]:
+                        merged_points = merged_points[:-1]
+                        merged_points.append([last[0], points[i][1]])
+                else:
+                    merged_points.append(points[i])
+            return merged_points
+        except IndexError: # если нет совпадающих отпечатков
+            return None
 
 
 class Gram:

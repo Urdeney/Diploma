@@ -26,7 +26,6 @@ class FileToFileForm(forms.Form):
 
 
 class MFInput(forms.ClearableFileInput):
-    # https://github.com/django/django/commit/eed53d0011622e70b936e203005f0e6f4ac48965#
     allow_multiple_selected = True
 
 

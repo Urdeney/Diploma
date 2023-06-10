@@ -61,7 +61,7 @@ def compare_many(request: HttpRequest):
             p.files = p.path
             p.gen_hash()
             p.save()
-            return redirect("summary", h=p.hash)
+            return redirect("summary_many", h=p.hash)
 
     else:
         form = ManyFilesForm()
@@ -147,18 +147,23 @@ def summary_many(request: HttpRequest, h: str):
             names.append(file.name)
             contents.append(f.read())
 
-    names1 = []
-    names2 = []
-    coeffs = []
+    rep = []
     for f1, f2 in combinations(Path(p.path).iterdir(), 2):
         fp_builder = FingerprintMethodBuilder([f1, f2], p.gram_size, p.window_size)
         config = MethodConfigurator(fp_builder)
         method_res = config.make_method()
-        coeffs.append(method_res.clone_pct * 100)
+        #coeffs.append(method_res.clone_pct * 100)
         p.processed = True
         p.save()
-        names1.append(f1.name)
-        names2.append(f2.name)
+        #names1.append(f1.name)
+        #names2.append(f2.name)
+        rep.append([method_res.clone_pct * 100, f1.name, f2.name])
+    
+    rep.sort(key = lambda x: x[0],reverse=True)
+
+    coeffs = [r[0] for r in rep]
+    names1 = [r[1] for r in rep]
+    names2 = [r[2] for r in rep]
 
     context = {
         "hash": p.hash,
