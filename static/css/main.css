@@ -1,0 +1,59 @@
+html,
+body {
+    height: 100%;
+    background-color: white;
+    background-image: url("../images/bg.jpg");
+    background-position-x: center;
+    background-position-y: top;
+    background-repeat: repeat;
+}
+
+body {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.landing {
+    margin-top: 2%;
+}
+
+.title {
+    font-size: 72pt;
+    font-weight: bold;
+}
+
+.btn-xl {
+    margin-top: 2%;
+    margin-left: 1%;
+    margin-right: 1%;
+    padding: 10px 20px;
+    font-size: x-large;
+}
+
+.footer {
+    width: 15%;
+    height: 15%;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lab {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.form {
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 2%;
+    padding: 2%;
+}
+
+.text-pimped {
+    text-shadow: 1px 1px 2px black;
+}

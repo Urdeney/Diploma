@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru-RU">
+    <head>
+        <title>
+            {% block title %}
+            {% endblock title %}
+        </title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %} {% bootstrap_javascript %}
+        {% block style %}
+        {% endblock style %}
+        <link rel="shortcut icon"
+              type="image/png"
+              href="{% static 'favicon.ico' %}" />
+        <meta name="description"
+              content="Clonus is a webservice for source code clone detection.">
+        <meta name="keywords"
+              content="clone_detection, plagiarism, document_fingerprinting">
+    </head>
+    <body>
+        {% block content %}
+        {% endblock content %}
+    </body>
+    {% block footer %}
+    {% endblock footer %}
+</html>

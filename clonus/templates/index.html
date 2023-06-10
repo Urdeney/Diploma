@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+clonus
+{% endblock title %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+{% endblock style %}
+{% block content %}
+<div class="h-100 d-flex align-items-center justify-content-center">
+    <div class="container text-center">
+        <div class="landing text-danger">
+            <p class="title text-pimped">Clonus</p>
+        </div>
+        <p class="text-white h4 landing text-pimped">
+            Веб-сервис для поиска заимствований в решениях задач по программированию
+        </p>
+        <a role="button" class="btn btn-success btn-xl" href={% url 'compare' %}>Сравнить два файла</a>
+        <a role="button" class="btn btn-success btn-xl" href={% url 'compare_many' %}>Сравнить группу файлов</a>
+        <br>
+        <a role="button" class="btn btn-success btn-xl" href={% url 'list' %}>Список отчетов</a>
+    </div>
+</div>
+{% endblock content %}
+{% block footer %}
+<footer class="text-white text-center">
+    <p>© Copyright Clowns & Co.</p>
+  </footer>
+{% endblock footer %}
