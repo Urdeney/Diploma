@@ -7,6 +7,8 @@ from django.dispatch import receiver
 
 # Create your models here.
 
+# TODO: add Result model with coeff and offsets
+
 
 class Package(models.Model):
     id: int
@@ -16,8 +18,10 @@ class Package(models.Model):
     hash = models.CharField(max_length=32)
     gram_size = models.PositiveSmallIntegerField(default=8)
     window_size = models.PositiveSmallIntegerField(default=3)
-    processed = models.BooleanField(default=False)
-    coeff = models.FloatField(default=0.0)
+    processed = models.BooleanField(
+        default=False
+    )  # TODO: replace this with result reference
+    coeff = models.FloatField(default=0.0)  # TODO: remove this
 
     def gen_hash(self, chunk_size: int = 4096):
         hasher = md5(str(self.path).encode("utf-8"))

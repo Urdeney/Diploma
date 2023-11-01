@@ -53,6 +53,11 @@ def f2f_summary(request: HttpRequest, h: str):
         res.print()
         p.processed = True
         p.save()
+        # TODO: 
+        # 1). save shit to db
+        # 2). interpolate files with html tags
+        # 3). write view for summary
+        # 4). think of a way to implement f2db
     return render(request, "f2f_summary.html")
 
 
